@@ -133,7 +133,7 @@ namespace InmobiliariaGatica.Models
                     command.Parameters.AddWithValue("@id", c.IdInmueble);
                     command.Parameters.AddWithValue("@idInquilino", c.IdInquilino);
                     command.Parameters.AddWithValue("@fechaInicio", c.FechaInicio);
-                    command.Parameters.AddWithValue("@fechaC", c.FechaFinal);
+                    command.Parameters.AddWithValue("@fechaFinal", c.FechaFinal);
                     command.Parameters.AddWithValue("@monto", c.Importe);
                     command.Parameters.AddWithValue("@estado", c.Estado);
                     
