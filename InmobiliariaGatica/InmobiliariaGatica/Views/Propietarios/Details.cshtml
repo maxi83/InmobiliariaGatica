@@ -1,12 +1,12 @@
 ﻿@model InmobiliariaGatica.Models.Propietario
 
 @{
-    ViewData["Title"] = "Delete";
+    ViewData["Title"] = "Detail";
 }
 
-<h1>Eliminar</h1>
+<h1>Detalles</h1>
 
-<h3>Estas seguro que deseas eliminar esto?</h3>
+
 <div>
     <h4>Propietario</h4>
     <hr />
@@ -43,8 +43,8 @@
         </dd>
     </dl>
 
-    <form asp-action="Delete">
-        <input type="submit" value="Eliminar" class="btn btn-danger" /> |
-        <a asp-action="Index">Vovler a la lista</a>
-    </form>
+    <div>
+        @Html.ActionLink("Editar", "Edit", new { id = Model.Id }) |
+        <a asp-action="Index">Volver a la Lista</a>
+    </div>
 </div>

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
 using InmobiliariaGatica.Models;
@@ -21,6 +22,8 @@ namespace InmobiliariaGatica.Controllers
         {
            
             {
+                ViewData["Error"] = TempData["Error"];
+
                 var lista = repositorio.ObtenerTodos();
                 return View(lista);
             }
@@ -95,18 +98,24 @@ namespace InmobiliariaGatica.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Delete(int id, Propietario propietario)
         {
-            {
+            
                 try
                 {
                     repositorio.Baja(id);
 
                     return RedirectToAction(nameof(Index));
                 }
-                catch
+                catch (SqlException ex)
                 {
-                    return View(propietario);
+                    TempData["Error"] = ex.Number == 547 ? "No se puede borrar el tipo Persona porque esta utilizado" : "Ocurrio un error.";
+                    return RedirectToAction(nameof(Index));
                 }
-            }
+                catch (Exception ex)
+                {
+                    TempData["Error"] = "Ocurrio un error." + ex.ToString();
+                    return RedirectToAction(nameof(Index));
+                }
+            
         }
     }
 }

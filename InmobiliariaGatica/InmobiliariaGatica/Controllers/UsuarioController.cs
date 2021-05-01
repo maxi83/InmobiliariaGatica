@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using InmobiliariaGatica.Models;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -14,10 +16,12 @@ namespace InmobiliariaGatica.Controllers
         private RepositorioUsuario uRepositorio;
 
         private readonly IConfiguration configuration;
+        private readonly IWebHostEnvironment environment;
 
-        public UsuarioController(IConfiguration configuration)
+        public UsuarioController(IConfiguration configuration, IWebHostEnvironment environment)
         {
             this.configuration = configuration;
+            this.environment = environment;
             uRepositorio = new RepositorioUsuario(configuration);
           
         }
@@ -46,7 +50,28 @@ namespace InmobiliariaGatica.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(Usuario usuario)
         {
+            usuario.Avatar = "";
             uRepositorio.Alta(usuario);
+            if (usuario.AvatarFile != null && usuario.Id > 0)
+            {
+                string wwwPath = environment.WebRootPath;
+                string path = Path.Combine(wwwPath, "Uploads");
+                if (!Directory.Exists(path))
+                {
+                    Directory.CreateDirectory(path);
+                }
+                //Path.GetFileName(u.AvatarFile.FileName); //este nombre se puede repetir
+                string fileName = "avatar_" + usuario.Id + Path.GetExtension(usuario.AvatarFile.FileName);
+                string pathCompleto = Path.Combine(path, fileName);
+                usuario.Avatar = Path.Combine("/Uploads", fileName);
+                using (FileStream stream = new FileStream(pathCompleto, FileMode.Create))
+                {
+                    usuario.AvatarFile.CopyTo(stream);
+                }
+
+            }
+            uRepositorio.Modificacion(usuario);
+
             return RedirectToAction(nameof(Index));
         }
 

@@ -70,13 +70,10 @@ namespace InmobiliariaGatica.Models
                     command.Parameters.AddWithValue("@apellido", u.Apellido);
                     command.Parameters.AddWithValue("@email", u.Email);
                     command.Parameters.AddWithValue("@clave", u.Clave);
-                    if (string.IsNullOrEmpty(u.Avatar)) { command.Parameters.AddWithValue("@avatar", DBNull.Value); }
-                    else
-                    {
-                        command.Parameters.AddWithValue("@avatar", u.Avatar);
-                    }
+                    command.Parameters.AddWithValue("@avatar", u.Avatar);
                     command.Parameters.AddWithValue("@rol", u.Rol);
-                    
+
+
 
                     connection.Open();
                     res = Convert.ToInt32(command.ExecuteScalar());

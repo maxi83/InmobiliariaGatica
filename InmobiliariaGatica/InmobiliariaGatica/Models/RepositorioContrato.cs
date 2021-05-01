@@ -153,7 +153,7 @@ namespace InmobiliariaGatica.Models
                 string sql = $" SELECT Id, c.IdInquilino, c.IdInmueble, FechaInicio, FechaFinal, Importe, Estado, " +
                     $" inq.Nombre, inq.Apellido ," +
                     $" inm.Direccion, inm.Tipo" +
-                    $" FROM Contratos c INNER JOIN Inmuebles inm ON c.IdInm = inm.IdInm " +
+                    $" FROM Contratos c INNER JOIN Inmuebles inm ON c.IdInm = inm.Id " +
                     $" INNER JOIN Inquilinos inq ON c.IdInq = inq.Id " +
                     $" WHERE c.Id = @id";
 
