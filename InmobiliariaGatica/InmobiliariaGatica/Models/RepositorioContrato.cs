@@ -129,14 +129,15 @@ namespace InmobiliariaGatica.Models
                 using (SqlCommand command = new SqlCommand(sql, connection))
                 {
                     command.CommandType = CommandType.Text;
-                    command.Parameters.AddWithValue("@id", c.Id);
-                    command.Parameters.AddWithValue("@id", c.IdInmueble);
+                    
+                    command.Parameters.AddWithValue("@idInmueble", c.IdInmueble);
                     command.Parameters.AddWithValue("@idInquilino", c.IdInquilino);
                     command.Parameters.AddWithValue("@fechaInicio", c.FechaInicio);
                     command.Parameters.AddWithValue("@fechaFinal", c.FechaFinal);
-                    command.Parameters.AddWithValue("@monto", c.Importe);
+                    command.Parameters.AddWithValue("@importe", c.Importe);
                     command.Parameters.AddWithValue("@estado", c.Estado);
-                    
+                    command.Parameters.AddWithValue("@id", c.Id);
+
                     connection.Open();
                     res = command.ExecuteNonQuery();
                     connection.Close();
@@ -152,8 +153,8 @@ namespace InmobiliariaGatica.Models
             {
                 string sql = $" SELECT Id, c.IdInquilino, c.IdInmueble, FechaInicio, FechaFinal, Importe, Estado, " +
                     $" inq.Nombre, inq.Apellido ," +
-                    $" inm.Direccion, inm.Tipo" +
-                    $" FROM Contratos c INNER JOIN Inmuebles inm ON c.IdInm = inm.Id " +
+                    $" inm.Direccion, inm.Ambientes" +
+                    $" FROM Contratos c INNER JOIN Inmuebles inm ON c.Id = inm.Id " +
                     $" INNER JOIN Inquilinos inq ON c.IdInq = inq.Id " +
                     $" WHERE c.Id = @id";
 
@@ -178,14 +179,14 @@ namespace InmobiliariaGatica.Models
 
                             Inquilino = new Inquilino
                             {
-                                Nombre = reader.GetString(3),
-                                Apellido = reader.GetString(2),
+                                Nombre = reader.GetString(8),
+                                Apellido = reader.GetString(9),
                             },
 
                             Inmueble = new Inmueble
                             {
-                                Direccion = reader.GetString(1),
-                                Ambientes = reader.GetInt32(2)
+                                Direccion = reader.GetString(10),
+                                Ambientes = reader.GetInt32(11)
                             }
 
 

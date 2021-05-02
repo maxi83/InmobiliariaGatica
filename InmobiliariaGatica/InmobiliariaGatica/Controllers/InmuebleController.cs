@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -25,6 +26,7 @@ namespace InmobiliariaGatica.Controllers
         // GET: InquilinoController
         public ActionResult Index()
         {
+            ViewData["Error"] = TempData["Error"];
             var listaInmuebles = iRepositorio.ObtenerTodos();
             return View(listaInmuebles);
         }
@@ -90,9 +92,15 @@ namespace InmobiliariaGatica.Controllers
 
                     return RedirectToAction(nameof(Index));
                 }
-                catch
+                catch (SqlException ex)
                 {
-                    return View(inmueble);
+                    TempData["Error"] = ex.Number == 547 ? "No se puede borrar el tipo Persona porque esta utilizado" : "Ocurrio un error.";
+                    return RedirectToAction(nameof(Index));
+                }
+                catch (Exception ex)
+                {
+                    TempData["Error"] = "Ocurrio un error." + ex.ToString();
+                    return RedirectToAction(nameof(Index));
                 }
             }
         }
