@@ -151,11 +151,11 @@ namespace InmobiliariaGatica.Models
             Contrato con = null;
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                string sql = $" SELECT Id, c.IdInquilino, c.IdInmueble, FechaInicio, FechaFinal, Importe, Estado, " +
-                    $" inq.Nombre, inq.Apellido ," +
-                    $" inm.Direccion, inm.Ambientes" +
-                    $" FROM Contratos c INNER JOIN Inmuebles inm ON c.Id = inm.Id " +
-                    $" INNER JOIN Inquilinos inq ON c.IdInq = inq.Id " +
+                string sql = $"SELECT c.Id, c.IdInquilino, c.IdInmueble, FechaInicio, FechaFinal, Importe, Estado, " +
+                     $"inq.Nombre, inq.Apellido, " +
+                     $"inm.Direccion, inm.Ambientes " +
+                    $" FROM Contratos c INNER JOIN Inmuebles inm ON c.IdInmueble = inm.Id " +
+                     $"INNER JOIN Inquilino inq ON c.IdInquilino = inq.Id " +
                     $" WHERE c.Id = @id";
 
                 using (SqlCommand command = new SqlCommand(sql, connection))
@@ -179,14 +179,14 @@ namespace InmobiliariaGatica.Models
 
                             Inquilino = new Inquilino
                             {
-                                Nombre = reader.GetString(8),
-                                Apellido = reader.GetString(9),
+                                Nombre = reader.GetString(7),
+                                Apellido = reader.GetString(8),
                             },
 
                             Inmueble = new Inmueble
                             {
-                                Direccion = reader.GetString(10),
-                                Ambientes = reader.GetInt32(11)
+                                Direccion = reader.GetString(9),
+                                Ambientes = reader.GetInt32(10)
                             }
 
 

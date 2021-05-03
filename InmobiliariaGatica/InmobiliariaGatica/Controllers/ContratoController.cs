@@ -57,7 +57,8 @@ namespace InmobiliariaGatica.Controllers
         // GET: ContratoController/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            var contrato = rContrato.ObtenerPorId(id);
+            return View(contrato);
         }
 
         // POST: ContratoController/Edit/5

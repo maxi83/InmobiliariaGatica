@@ -95,14 +95,14 @@ namespace InmobiliariaGatica.Models
             int res = -1;
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                string sql = "UPDATE Pagos" +
-                    "SET Numero = @numero, Fecha = @fecha, Importe = @importe, IdContrato = @idContrato " +
-                    "WHERE Id = @id;";
+                string sql = "UPDATE Pagos " +
+                    $"SET Nro = @Nro, Fecha = @fecha, Importe = @importe, IdContrato = @idContrato " +
+                    $"WHERE Id = @id";
                 using (SqlCommand command = new SqlCommand(sql, connection))
                 {
                     command.CommandType = CommandType.Text;
                     command.Parameters.AddWithValue("@id", p.Id);
-                    command.Parameters.AddWithValue("@numero", p.Nro);
+                    command.Parameters.AddWithValue("@Nro", p.Nro);
                     command.Parameters.AddWithValue("@fecha", p.Fecha);
                     command.Parameters.AddWithValue("@importe", p.Importe);
                     command.Parameters.AddWithValue("@idContrato", p.IdContrato);
