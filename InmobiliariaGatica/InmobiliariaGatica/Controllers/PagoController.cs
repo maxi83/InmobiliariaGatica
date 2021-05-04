@@ -1,4 +1,5 @@
 ﻿using InmobiliariaGatica.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -23,6 +24,7 @@ namespace InmobiliariaGatica.Controllers
             cRepositorio = new RepositorioContrato(configuration);
         }
         // GET: InmuebleController
+        [Authorize]
         public ActionResult Index()
         {
             List<Pago> lista = pRepositorio.ObtenerTodos();
@@ -30,6 +32,7 @@ namespace InmobiliariaGatica.Controllers
         }
 
         // GET: InmuebleController/Details/5
+        [Authorize]
         public ActionResult Details(int id)
         {
             Pago pago = pRepositorio.BuscarPago(id);
@@ -37,6 +40,7 @@ namespace InmobiliariaGatica.Controllers
         }
 
         // GET: InmuebleController/Create
+        [Authorize]
         public ActionResult Create()
         {
             return View();
@@ -45,6 +49,7 @@ namespace InmobiliariaGatica.Controllers
         // POST: PagoController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public ActionResult Create(Pago pago
             )
         {
@@ -54,6 +59,7 @@ namespace InmobiliariaGatica.Controllers
         }
 
         // GET: PagoController/Edit/5
+        [Authorize]
         public ActionResult Edit(int id)
         {
             Pago pago = pRepositorio.BuscarPago(id);
@@ -64,6 +70,7 @@ namespace InmobiliariaGatica.Controllers
         // POST: InmuebleController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public ActionResult Edit(int id, Pago pago)
         {
             try
@@ -78,6 +85,7 @@ namespace InmobiliariaGatica.Controllers
         }
 
         // GET: InmuebleController/Delete/5
+        [Authorize(Policy = "Administrador")]
         public ActionResult Delete(int id)
         {
             Pago pago = pRepositorio.BuscarPago(id);
@@ -87,6 +95,7 @@ namespace InmobiliariaGatica.Controllers
         // POST: InmuebleController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Policy = "Administrador")]
         public ActionResult Delete(int id, Pago pago)
         {
             try

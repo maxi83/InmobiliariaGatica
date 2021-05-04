@@ -4,6 +4,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
 using InmobiliariaGatica.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -23,6 +24,7 @@ namespace InmobiliariaGatica.Controllers
             rInquilino = new RepositorioInquilino(configuration);
         }
         // GET: ContratoController
+        [Authorize]
         public ActionResult Index()
         {
             ViewData["Error"] = TempData["Error"];
@@ -31,6 +33,7 @@ namespace InmobiliariaGatica.Controllers
         }
 
         // GET: ContratoController/Details/5
+        [Authorize]
         public ActionResult Details(int id)
         {
             Contrato contrato = rContrato.ObtenerPorId(id);
@@ -38,6 +41,7 @@ namespace InmobiliariaGatica.Controllers
         }
 
         // GET: ContratoController/Create
+        [Authorize]
         public ActionResult Create()
         {
             return View();
@@ -46,6 +50,7 @@ namespace InmobiliariaGatica.Controllers
         // POST: ContratoController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public ActionResult Create(Contrato contrato)
         {
             ViewData["Inquilinos"] = rInquilino.ObtenerTodos();
@@ -55,6 +60,7 @@ namespace InmobiliariaGatica.Controllers
         }
 
         // GET: ContratoController/Edit/5
+        [Authorize]
         public ActionResult Edit(int id)
         {
             var contrato = rContrato.ObtenerPorId(id);
@@ -64,6 +70,7 @@ namespace InmobiliariaGatica.Controllers
         // POST: ContratoController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public ActionResult Edit(int id, Contrato contrato)
         {
             rContrato.Modificacion(contrato);
@@ -72,6 +79,7 @@ namespace InmobiliariaGatica.Controllers
         }
 
         // GET: ContratoController/Delete/5
+        [Authorize(Policy = "Administrador")]
         public ActionResult Delete(int id)
         {
             return View();
@@ -80,6 +88,7 @@ namespace InmobiliariaGatica.Controllers
         // POST: ContratoController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Policy = "Administrador")]
         public ActionResult Delete(int id, Contrato contrato)
         {
             {

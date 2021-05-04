@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using InmobiliariaGatica.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -26,6 +27,7 @@ namespace InmobiliariaGatica.Controllers
           
         }
         // GET: UsuarioController
+        [Authorize]
         public ActionResult Index()
         {
             var listaUsuarios = uRepositorio.ObtenerTodos();
@@ -33,6 +35,7 @@ namespace InmobiliariaGatica.Controllers
         }
 
         // GET: UsuarioController/Details/5
+        [Authorize]
         public ActionResult Details(int id)
         {
             Usuario usuario = uRepositorio.ObtenerPorId(id);
@@ -40,6 +43,7 @@ namespace InmobiliariaGatica.Controllers
         }
 
         // GET: UsuarioController/Create
+        [Authorize]
         public ActionResult Create()
         {
             return View();
@@ -48,6 +52,7 @@ namespace InmobiliariaGatica.Controllers
         // POST: UsuarioController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public ActionResult Create(Usuario usuario)
         {
             usuario.Avatar = "";
@@ -76,6 +81,7 @@ namespace InmobiliariaGatica.Controllers
         }
 
         // GET: UsuarioController/Edit/5
+        [Authorize]
         public ActionResult Edit(int id)
         {
             Usuario usuario = uRepositorio.ObtenerPorId(id);
@@ -85,6 +91,7 @@ namespace InmobiliariaGatica.Controllers
         // POST: UsuarioController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public ActionResult Edit(int id, Usuario usuario)
         {
             uRepositorio.Modificacion(usuario);
@@ -93,6 +100,7 @@ namespace InmobiliariaGatica.Controllers
         }
 
         // GET: UsuarioController/Delete/5
+        [Authorize(Policy = "Administrador")]
         public ActionResult Delete(int id)
         {
             Usuario usuario = uRepositorio.ObtenerPorId(id);
@@ -102,6 +110,7 @@ namespace InmobiliariaGatica.Controllers
         // POST: UsuarioController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Policy = "Administrador")]
         public ActionResult Delete(int id, Usuario usuario)
         {
             {

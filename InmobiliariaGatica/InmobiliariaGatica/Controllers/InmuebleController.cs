@@ -1,5 +1,6 @@
 ﻿
 using InmobiliariaGatica.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -24,6 +25,7 @@ namespace InmobiliariaGatica.Controllers
         }
 
         // GET: InquilinoController
+        [Authorize]
         public ActionResult Index()
         {
             ViewData["Error"] = TempData["Error"];
@@ -32,6 +34,7 @@ namespace InmobiliariaGatica.Controllers
         }
 
         // GET: InquilinoController/Details/5
+        [Authorize]
         public ActionResult Details(int id)
         {
             Inmueble inmueble = iRepositorio.ObtenerInmueble(id);
@@ -39,6 +42,7 @@ namespace InmobiliariaGatica.Controllers
         }
 
         // GET: InquilinoController/Create
+        [Authorize]
         public ActionResult Create()
         {
             ViewData["Propietarios"] = rRepositorio.ObtenerTodos();
@@ -49,6 +53,7 @@ namespace InmobiliariaGatica.Controllers
         // POST: InquilinoController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public ActionResult Create(Inmueble inmueble)
         {
             iRepositorio.Alta(inmueble);
@@ -56,6 +61,7 @@ namespace InmobiliariaGatica.Controllers
         }
 
         // GET: InquilinoController/Edit/5
+        [Authorize]
         public ActionResult Edit(int id)
         {
             Inmueble inmueble = iRepositorio.ObtenerInmueble(id);
@@ -66,6 +72,7 @@ namespace InmobiliariaGatica.Controllers
         // POST: InquilinoController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public ActionResult Edit(int id, Inmueble inmueble)
         {
             iRepositorio.Modificar(inmueble);
@@ -74,6 +81,7 @@ namespace InmobiliariaGatica.Controllers
         }
 
         // GET: InquilinoController/Delete/5
+        [Authorize(Policy = "Administrador")]
         public ActionResult Delete(int id)
         {
             Inmueble inmueble = iRepositorio.ObtenerInmueble(id);
@@ -83,6 +91,7 @@ namespace InmobiliariaGatica.Controllers
         // POST: InquilinoController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Policy = "Administrador")]
         public ActionResult Delete(int id, Inmueble inmueble)
         {
             {

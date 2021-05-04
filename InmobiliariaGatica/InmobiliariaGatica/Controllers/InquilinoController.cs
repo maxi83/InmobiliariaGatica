@@ -1,4 +1,5 @@
 ﻿using InmobiliariaGatica.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -19,6 +20,7 @@ namespace InmobiliariaGatica.Controllers
         }
 
         // GET: InquilinoController
+        [Authorize]
         public ActionResult Index()
         {
             var listaInquilinos = iRepositorio.ObtenerTodos();
@@ -26,6 +28,7 @@ namespace InmobiliariaGatica.Controllers
         }
 
         // GET: InquilinoController/Details/5
+        [Authorize]
         public ActionResult Details(int id)
         {
             Inquilino inquilino = iRepositorio.ObtenerPorId(id);
@@ -33,6 +36,7 @@ namespace InmobiliariaGatica.Controllers
         }
 
         // GET: InquilinoController/Create
+        [Authorize]
         public ActionResult Create()
         {
             return View();
@@ -41,6 +45,7 @@ namespace InmobiliariaGatica.Controllers
         // POST: InquilinoController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public ActionResult Create(Inquilino inquilino)
         {
             iRepositorio.Alta(inquilino);
@@ -48,6 +53,7 @@ namespace InmobiliariaGatica.Controllers
         }
 
         // GET: InquilinoController/Edit/5
+        [Authorize]
         public ActionResult Edit(int id)
         {
             Inquilino inquilino = iRepositorio.ObtenerPorId(id);
@@ -57,6 +63,7 @@ namespace InmobiliariaGatica.Controllers
         // POST: InquilinoController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public ActionResult Edit(int id, Inquilino inquilino)
         {
             iRepositorio.Modificacion(inquilino);
@@ -65,6 +72,7 @@ namespace InmobiliariaGatica.Controllers
         }
 
         // GET: InquilinoController/Delete/5
+        [Authorize(Policy = "Administrador")]
         public ActionResult Delete(int id)
         {
             Inquilino inquilino = iRepositorio.ObtenerPorId(id);
@@ -74,6 +82,7 @@ namespace InmobiliariaGatica.Controllers
         // POST: InquilinoController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Policy = "Administrador")]
         public ActionResult Delete(int id, Inquilino inquilino)
         {
             {
